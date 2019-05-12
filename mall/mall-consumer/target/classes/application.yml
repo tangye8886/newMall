@@ -1,0 +1,18 @@
+server:
+  port: 9001
+   
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp 
+
+    
+dubbo:
+  application:
+    name: mall-consumer
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages:
+    - com.tangye.mall.service

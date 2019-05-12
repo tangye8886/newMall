@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangye.mall.mapper.MallAfterServiceMapper" >
+  
+  <resultMap type="com.tangye.mall.entity.AfterService" id="afterServiceMap">
+  	<id column="id" property="id"/>
+  	<result column="username" property="username"/>
+  	<result column="tel" property="tel"/>
+  	<result column="orderId" property="orderId"/>
+  	<result column="reason" property="reason"/>
+  	<result column="photo" property="photo"/>
+  	<result column="userNo" property="userNo"/>
+  	<result column="crateTime" property="crateTime"/>
+  	<result column="status" property="status"/>
+  </resultMap>
+  
+  
+  <select id="allAfterService" resultMap="afterServiceMap" >
+  	select * from mall_afterService
+  </select>
+  
+   <select id="findAfterService" parameterType="java.lang.Integer" resultMap="afterServiceMap" >
+  	select * from mall_afterService where id=#{id}
+  </select>
+  
+   <select id="myAfterService" parameterType="java.lang.Long" resultMap="afterServiceMap" >
+  	select * from mall_afterService where userNo=#{userNo}
+  </select>
+ 
+  
+  <delete id="deleteAfterService" parameterType="java.lang.Integer">
+  	delete from mall_afterService where id = #{id}
+  </delete>
+  
+  
+  <insert id="addAfterService" parameterType="com.tangye.mall.entity.AfterService" >
+    insert into mall_afterService
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+       <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="crateTime != null" >
+        crateTime,
+      </if>
+       <if test="status != null" >
+        status
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username},
+      </if>
+      <if test="tel != null" >
+        #{tel},
+      </if>
+       <if test="orderId != null" >
+        #{orderId},
+      </if>
+      <if test="reason != null" >
+        #{reason},
+      </if>
+      <if test="photo != null" >
+        #{photo},
+      </if>
+      <if test="crateTime != null" >
+        #{crateTime},
+      </if>
+      <if test="status != null" >
+        #{status}
+      </if>
+    </trim>
+  </insert>
+  
+ 
+  
+ 
+  <update id="updateAfterService" parameterType="com.tangye.mall.entity.MallUser" >
+    update mall_afterService
+    <set >
+      <if test="username != null" >
+        username = #{username},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel},
+      </if>
+      <if test="orderId != null" >
+        orderId = #{orderId},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason},
+      </if>
+       <if test="photo != null" >
+        photo = #{photo},
+      </if>
+       <if test="crateTime != null" >
+        crateTime = #{crateTime},
+      </if>
+       <if test="status != null" >
+        status = #{status}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+</mapper>

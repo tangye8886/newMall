@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangye.mall.mapper.MallUserMapper" >
+  
+ <!--  <resultMap type="com.tangye.mall.entity.MallUser" id="userAddressMap">
+  		<id column="id" property="id"/>
+  		<result column="username" property="username"/>
+  		<result column="password" property="password"/>
+  		<result column="phone" property="phone"/>
+  		<result column="email" property="email"/>
+  		<result column="created" property="created"/>
+  		<result column="updated" property="updated"/>
+  		<result column="role" property="role"/>
+  		<association property="address" javaType="com.tangye.mall.entity.MallAddress">
+  			<id column="id1" property="id"/>
+  			<result column="userNo" property="userNo"/>
+	  		<result column="userName1" property="userName"/>
+	  		<result column="phone1" property="phone"/>
+	  		<result column="address" property="address"/>
+	  		<result column="postCode" property="postCode"/>
+	  		<result column="createTime" property="createTime"/>
+  		</association>
+  </resultMap> -->
+  
+  
+  
+  
+  <select id="allUser" resultType="com.tangye.mall.entity.MallUser" >
+  	select * from mall_user
+  </select>
+  
+  
+   <select id="findUserByid" parameterType="java.lang.Long" resultType="com.tangye.mall.entity.MallUser">
+  	select * from mall_user where id=#{id}
+  </select>
+  
+   <select id="loginUser" parameterType="string" resultType="com.tangye.mall.entity.MallUser" >
+  	select * from mall_user where username=#{username}
+   </select>
+  
+  <delete id="deleteUser" parameterType="java.lang.Long">
+  	delete from mall_user where id=#{id}
+  </delete>
+  
+  
+  <insert id="addUser" parameterType="com.tangye.mall.entity.MallUser" >
+    insert into mall_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="role != null" >
+        role
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+       <if test="role != null" >
+        #{role}
+      </if>
+    </trim>
+  </insert>
+  
+ 
+  
+ 
+  <update id="updateUser" parameterType="com.tangye.mall.entity.MallUser" >
+    update mall_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="role != null" >
+        role = #{role}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

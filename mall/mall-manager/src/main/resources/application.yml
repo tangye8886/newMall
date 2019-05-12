@@ -1,0 +1,17 @@
+server:
+  port: 8003
+   
+spring:
+  mvc:
+    view:
+      prefix: /page/
+      suffix: .jsp   
+ 
+dubbo:
+  application:
+    name: mall-manager
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages:
+    - com.tangye.mall.service

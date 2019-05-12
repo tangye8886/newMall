@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangye.mall.mapper.MallCollectMapper" >
+  
+ <resultMap type="com.tangye.mall.entity.MallCollect" id="collectAddressMap">
+  		<id column="id" property="id"/>
+  		<result column="userNo" property="userNo"/>
+  		<result column="itemNo" property="itemNo"/>
+  		<result column="status" property="status"/>
+  		<association property="item" javaType="com.tangye.mall.entity.MallItem">
+  			<id column="itemID" property="id"/>
+  			<result column="title" property="title" jdbcType="VARCHAR" />
+		    <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
+		    <result column="price" property="price" jdbcType="REAL" />
+		    <result column="num" property="num" jdbcType="INTEGER" />
+		    <result column="image" property="image" jdbcType="VARCHAR" />
+  		</association>
+  </resultMap>
+  
+  
+  <select id="allCollect" resultType="com.tangye.mall.entity.MallCollect" >
+  	select * from mall_collect
+  </select>
+  
+  
+  <select id="findCollectByUserNo" parameterType="java.lang.Long" resultMap="collectAddressMap">
+  	SELECT c.*,i.id as itemID,i.title,i.sell_num,i.price,i.image from mall_item i,mall_collect c where i.id=c.itemNo and c.status=1 and c.userNo=#{userNo}
+  </select>
+  
+  
+  <select id="findCollectByItemNo" parameterType="java.lang.Long" resultMap="collectAddressMap">
+  	SELECT c.*,i.id as itemID,i.title,i.sell_num,i.price,i.image from mall_item i,mall_collect c where i.id=c.itemNo and c.status=1 and c.itemNo=#{itemNo}
+  </select>
+  
+  <select id="findCollectById" parameterType="java.lang.Integer" resultMap="collectAddressMap">
+  	SELECT c.*,i.id as itemID,i.title,i.sell_num,i.price,i.image from mall_item i,mall_collect c where i.id=c.itemNo and c.id=#{id}
+  </select>
+  
+  
+   <select id="searchCollectFlag" parameterType="java.util.Map" resultType="com.tangye.mall.entity.MallCollect">
+ 	SELECT * from mall_collect where itemNo=${itemNo} and userNo=${userNo}
+  </select>
+
+  <delete id="deleteCollect" parameterType="java.lang.Integer">
+  	delete from mall_collect where id=#{id}
+  </delete>
+  
+  
+  <insert id="addCollect" parameterType="com.tangye.mall.entity.MallCollect" >
+    insert into mall_collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userNo != null" >
+        userNo,
+      </if>
+      <if test="itemNo != null" >
+        itemNo,
+      </if>
+      <if test="status != null" >
+        status
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userNo != null" >
+        #{userNo},
+      </if>
+      <if test="itemNo != null" >
+        #{itemNo},
+      </if>
+      <if test="status != null" >
+        #{status}
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateCollect" parameterType="com.tangye.mall.entity.MallCollect" >
+    update mall_collect
+    <set >
+      <if test="userNo != null" >
+        userNo = #{userNo},
+      </if>
+      <if test="itemNo != null" >
+        itemNo = #{itemNo},
+      </if>
+      <if test="status != null" >
+        status = #{status}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  
+   <delete id="deleteCollectByUser" parameterType="java.util.Map">
+  	delete from mall_collect where userNo = #{userNo} AND itemNo=#{itemNo}
+  </delete>
+  
+  
+</mapper>

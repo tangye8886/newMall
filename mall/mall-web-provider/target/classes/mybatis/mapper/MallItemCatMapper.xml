@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangye.mall.mapper.MallItemCatMapper" >
+
+ <resultMap id="catResultMap" type="com.tangye.mall.entity.MallItemCat" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" />
+    <result column="name" property="name" />
+    <result column="status" property="status"  />
+    <result column="sort_order" property="sortOrder" />
+    <result column="is_parent" property="isParent" />
+    <result column="created" property="created"/>
+    <result column="updated" property="updated"/>
+  </resultMap>
+  
+	
+  
+  <select id="allItemCat"  resultMap="catResultMap" >
+    select * from mall_item_cat
+  </select>
+  
+   <select id="findItemCatByid" parameterType="java.lang.Long"  resultMap="catResultMap" >
+    select * from mall_item_cat where id=#{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="findItemCatParent" parameterType="java.lang.Long"  resultMap="catResultMap" >
+    select * from mall_item_cat where id=#{id,jdbcType=BIGINT}
+  </select>
+  
+  
+  <select id="getOneCatParent"  resultMap="catResultMap" >
+    select * from mall_item_cat where parent_id=0
+  </select>
+  
+  
+  <select id="getTwoCatParent"  resultMap="catResultMap" >
+     select * from mall_item_cat where is_parent=1 and parent_id !=0
+  </select>
+  
+  
+  <select id="getThreeCatParent"  resultMap="catResultMap" >
+     select * from mall_item_cat where is_parent=0
+  </select>
+  
+   <select id="getCatSon" parameterType="java.lang.Long"  resultMap="catResultMap" >
+     select * from mall_item_cat where parent_id=#{parentId}
+  </select>
+  
+  
+  <delete id="deleteItemCat" parameterType="java.lang.Long" >
+    delete from mall_item_cat where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="addItemCat" parameterType="com.tangye.mall.entity.MallItemCat" >
+    insert into mall_item_cat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sortOrder != null" >
+        sort_order,
+      </if>
+      <if test="isParent != null" >
+        is_parent,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isParent != null" >
+        #{isParent,jdbcType=BIT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  
+  <update id="updateItemCat" parameterType="com.tangye.mall.entity.MallItemCat" >
+    update mall_item_cat
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null" >
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isParent != null" >
+        is_parent = #{isParent,jdbcType=BIT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

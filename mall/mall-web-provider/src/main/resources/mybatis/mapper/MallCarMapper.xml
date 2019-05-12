@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tangye.mall.mapper.MallCarMapper" >
+  
+  <resultMap type="com.tangye.mall.entity.MallCar" id="mycarMap">
+  	<id column="id" property="id"/>
+  	<result column="itemNo" property="itemNo"/>
+  	<result column="userNo" property="userNo"/>
+  	<result column="amount" property="amount"/>
+  	<result column="createTime" property="createTime"/>
+  	<association property="item" javaType="com.tangye.mall.entity.MallItem">
+	  	<id column="itemid" property="id"/>
+	  	<result column="title" property="title"/>
+	  	<result column="sell_desc" property="sellDesc"/>
+	  	<result column="sell_point" property="sellPoint"/>
+	  	<result column="sell_num" property="sellNum"/>
+	  	<result column="price" property="price"/>
+	  	<result column="num" property="num"/>
+	  	<result column="image" property="image"/>
+	  	<result column="cid" property="cid"/>
+	  	<result column="status" property="status"/>
+  	</association>
+  </resultMap>
+  
+  
+  <select id="myCar" parameterType="java.lang.Long" resultMap="mycarMap" >
+  	SELECT c.id,c.itemNo,c.userNo,c.amount,c.createTime,i.id as 'itemid',i.title,i.sell_desc,i.sell_point,i.sell_num,i.price,i.num,i.image,i.`status` FROM mall_car c,mall_item i where i.id=c.itemNo and c.userNo=#{userNo}
+  </select>
+ 
+  
+  <delete id="deleteCar" parameterType="java.lang.Integer">
+  	delete from mall_car where id = #{id}
+  </delete>
+  
+  
+  <insert id="addCar" parameterType="com.tangye.mall.entity.MallCar" >
+    insert into mall_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemNo != null" >
+        itemNo,
+      </if>
+      <if test="userNo != null" >
+        userNo,
+      </if>
+       <if test="amount != null" >
+        amount,
+      </if>
+      <if test="createTime != null" >
+        createTime
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemNo != null" >
+        #{itemNo},
+      </if>
+      <if test="userNo != null" >
+        #{userNo},
+      </if>
+       <if test="amount != null" >
+        #{amount},
+      </if>
+      <if test="createTime != null" >
+        #{createTime}
+      </if>
+    </trim>
+  </insert>
+  
+ 
+  
+ 
+  <update id="updateCar" parameterType="com.tangye.mall.entity.MallUser" >
+    update mall_car
+    <set >
+      <if test="itemNo != null" >
+        itemNo = #{itemNo,jdbcType=BIGINT},
+      </if>
+      <if test="userNo != null" >
+        userNo = #{userNo,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  
+  <update id="updateCarAmount" parameterType="com.tangye.mall.entity.MallUser" >
+    update mall_car
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=BIGINT}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  
+  
+</mapper>

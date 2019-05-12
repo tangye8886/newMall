@@ -1,0 +1,57 @@
+server:
+  port: 8001
+  
+spring:
+  datasource: 
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+  session:
+    store-type: none
+
+  #solr搜索引擎
+  data:
+    solr:
+      host: http://localhost:8080/solr/collection1
+  #消息中间件
+  rabbitmq:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+    publisher-confirms: true
+    #发邮箱服务
+  mail:
+    host: smtp.163.com
+    username: tanghongtao008@163.com
+    password: tao8743255
+    default-encoding: UTF-8
+  
+  
+mybatis:
+  config-location: classpath:/mybatis/mybatis-conf.xml
+  type-aliases-package: com.tangye.mall.entity
+  mapper-locations:
+  - classpath:/mybatis/mapper/*.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count
+
+  
+dubbo:
+  application: #应用名称
+    name:   mall-web-provider  
+  registry: #zookeeper服务注册中心地址
+    address: 127.0.0.1:2181
+    protocol: zookeeper   #服务注册中心类型
+  protocol:  #暴露服务的地址
+    port: 20880
+    name: dubbo
+  scan:
+    base-packages:
+    - com.tangye.mall.service
